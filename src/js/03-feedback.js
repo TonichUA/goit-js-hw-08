@@ -1,9 +1,10 @@
 import throttle from 'lodash/throttle';
+
 const form = document.querySelector('.feedback-form');
 const email = form.querySelector('input[name="email"]');
 const message = form.querySelector('textarea[name="message"]');
-form.addEventListener('input', onInput);
 const infoKey = 'feedback-form-state';
+
 function onInput() {
   const formInfo = {
     email: email.value,
@@ -11,6 +12,7 @@ function onInput() {
   };
   localStorage.setItem(infoKey, JSON.stringify(formInfo));
 }
+
 function restoreForm() {
   const getForm = localStorage.getItem(infoKey);
   if (getForm) {
@@ -22,11 +24,14 @@ function restoreForm() {
     message.value = '';
   }
 }
+
 const throttledSaveForm = throttle(onInput, 500);
+
 form.addEventListener('input', throttledSaveForm);
 restoreForm();
 
 form.addEventListener('submit', onSubmit);
+
 function onSubmit(event) {
   event.preventDefault();
   const formInfo = {
